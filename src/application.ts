@@ -54,5 +54,8 @@ export class KtkiApiStoreApplication extends BootMixin(
     this.dataSource(DbDataSource, UserServiceBindings.DATASOURCE_NAME);
     // Bind datasource for refresh token
     this.dataSource(DbDataSource, RefreshTokenServiceBindings.DATASOURCE_NAME);
+    this.bind(RestExplorerBindings.CONFIG).to({
+      indexTitle: 'KTKI API Explorer',
+    });
   }
 }
