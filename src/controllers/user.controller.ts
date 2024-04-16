@@ -112,38 +112,38 @@ export class UserController {
     public refreshService: RefreshTokenService,
   ) { }
 
-  @post('/users/signup', {
-    responses: {
-      '200': {
-        description: 'User model instance',
-        content: {
-          'application/json': {
-            schema: {
-              'x-ts-type': User,
-            },
-          },
-        },
-      },
-    },
-  })
-  async signUp(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: CredentialsSchema,
-        },
-      },
-    })
-    newUserRequest: NewUserRequest,
-  ): Promise<User> {
-    const password = await hash(newUserRequest.password, await genSalt());
-    delete (newUserRequest as Partial<NewUserRequest>).password;
-    const savedUser = await this.userRepository.create(newUserRequest);
+  // @post('/users/signup', {
+  //   responses: {
+  //     '200': {
+  //       description: 'User model instance',
+  //       content: {
+  //         'application/json': {
+  //           schema: {
+  //             'x-ts-type': User,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
+  // async signUp(
+  //   @requestBody({
+  //     content: {
+  //       'application/json': {
+  //         schema: CredentialsSchema,
+  //       },
+  //     },
+  //   })
+  //   newUserRequest: NewUserRequest,
+  // ): Promise<User> {
+  //   const password = await hash(newUserRequest.password, await genSalt());
+  //   delete (newUserRequest as Partial<NewUserRequest>).password;
+  //   const savedUser = await this.userRepository.create(newUserRequest);
 
-    await this.userRepository.userCredentials(savedUser.id).create({password});
+  //   await this.userRepository.userCredentials(savedUser.id).create({password});
 
-    return savedUser;
-  }
+  //   return savedUser;
+  // }
 
   /**
    * A login function that returns an access token. After login, include the token
@@ -184,20 +184,6 @@ export class UserController {
     return {token};
   }
 
-  @authenticate('jwt')
-  @get('/whoAmI', {
-    responses: {
-      '200': {
-        description: '',
-        schema: {
-          type: 'string',
-        },
-      },
-    },
-  })
-  async whoAmI(): Promise<string> {
-    return this.user[securityId];
-  }
   /**
    * A login function that returns refresh token and access token.
    * @param credentials User email and password

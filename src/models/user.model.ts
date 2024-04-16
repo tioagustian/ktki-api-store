@@ -9,6 +9,9 @@ import {UserCredentials} from './user-credentials.model';
 @model({
   settings: {
     strict: false,
+    mysql: {
+      table: 'user'
+    }
   },
 })
 export class User extends Entity {

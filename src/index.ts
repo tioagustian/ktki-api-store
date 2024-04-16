@@ -7,6 +7,7 @@ export * from './models';
 export * from './repositories';
 export * from './services';
 export * from './types';
+const fs = require('fs');
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new KtkiApiStoreApplication(options);
@@ -36,6 +37,9 @@ if (require.main === module) {
         // useful when used with OpenAPI-to-GraphQL to locate your application
         setServersFromRequest: true,
       },
+      protocol: 'https',
+      key: fs.readFileSync('./ssl/ssl-kemkes-2022.key'),
+      cert: fs.readFileSync('./ssl/ssl-kemkes-2022.crt'),
     },
   };
   main(config).catch(err => {
